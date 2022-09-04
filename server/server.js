@@ -31,6 +31,12 @@ const io = socketIo(httpServer, {
 io.on("connection", (socket) => {
     console.log(`user ${socket.id} connected`);
 
+    socket.on("send_message", (data) => {
+        console.log(data)
+        console.log(io.engine.clientsCount);
+        socket.broadcast.emit("receive_message", data.message)
+    });
+
     socket.on("disconnect", () => {
         console.log(`user ${socket.id} has disconnected`);
     });

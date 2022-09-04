@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-function Messages(props) {
+function Messages({ socket, messages, setMessages }) {
+    // const [messageList, setMessageList] = useState([]);
+
+    useEffect(() => {
+        console.log("receiving message");
+        console.log(messages);
+        socket.on('receive_message', (message) => setMessages([...messages, message]));
+    })
+
     return (
         <>
-            <h2>Messages</h2>
+            {messages.map((message, index) => <div key={index}>{message}</div>)}
         </>
     );
 }

@@ -7,6 +7,7 @@ import MessageInput from "./components/MessageInput";
 
 function App() {
     const [socket, setSocket] = useState(null);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         console.log("useEffect firing");
@@ -26,8 +27,8 @@ function App() {
 
             {socket ? (
                 <div className="chat-container">
-                    <Messages socket={socket} />
-                    <MessageInput socket={socket} />
+                    <Messages socket={socket} messages={messages} setMessages={setMessages}/>
+                    <MessageInput socket={socket} setMessages={setMessages} messages={messages}/>
                 </div>
             ) : (
                 <div>Not Connected</div>
