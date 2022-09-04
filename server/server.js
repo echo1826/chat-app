@@ -28,10 +28,18 @@ const io = socketIo(httpServer, {
     cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
     console.log(`user ${socket.id} connected`);
+
+    socket.on("disconnect", () => {
+        console.log(`user ${socket.id} has disconnected`);
+    });
+    
+    socket.on("end", () => {
+        socket.disconnect();
+    });
 });
 
 httpServer.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-})
+});
