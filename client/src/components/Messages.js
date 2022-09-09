@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import "./messages.css";
 
 function Messages({ socket, messages, setMessages }) {
     // const [messageList, setMessageList] = useState([]);
@@ -11,7 +12,7 @@ function Messages({ socket, messages, setMessages }) {
 
     return (
         <>
-            {messages.map((message, index) => <div key={index}>{message}</div>)}
+            {messages.map((message, index) => <div className="message" key={index}>{message}</div>)}
         </>
     );
 }
