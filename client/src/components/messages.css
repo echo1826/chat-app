@@ -6,3 +6,12 @@
     border-radius: 10px;
     margin-bottom: 5px;
 }
+
+.sent {
+    border: 3px solid green;
+    padding: 5px 15px;
+    background-color: green;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}

@@ -6,8 +6,8 @@ function MessageInput({ socket, setMessages, messages }) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        setMessages([...messages, input]);
-        socket.emit("send_message", { message: input });
+        setMessages([...messages, { message: input, sender: socket.id }]);
+        socket.emit("send_message", { message: input, sender: socket.id });
         setInput("");
         setMessageTimeout(true);
         setTimeout(() => setMessageTimeout(false), 2000);

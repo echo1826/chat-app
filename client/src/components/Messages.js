@@ -7,12 +7,24 @@ function Messages({ socket, messages, setMessages }) {
     useEffect(() => {
         console.log("receiving message");
         console.log(messages);
-        socket.on('receive_message', (message) => setMessages([...messages, message]));
-    })
+        socket.on("receive_message", (message) => {
+            console.log(message);
+            setMessages([...messages, message]);
+        });
+    });
 
     return (
         <>
-            {messages.map((message, index) => <div className="message" key={index}>{message}</div>)}
+            {messages.map((message, index) => (
+                <div
+                    className={`${
+                        message.sender === socket.id ? "sent" : "message"
+                    }`}
+                    key={index}
+                >
+                    {message.message}
+                </div>
+            ))}
         </>
     );
 }

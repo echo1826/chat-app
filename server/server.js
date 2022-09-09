@@ -32,15 +32,18 @@ io.on("connection", (socket) => {
     console.log(`user ${socket.id} connected`);
 
     socket.on("send_message", (data) => {
-        console.log(data)
+        console.log(data);
         console.log(io.engine.clientsCount);
-        socket.broadcast.emit("receive_message", data.message)
+        socket.broadcast.emit("receive_message", {
+            message: data.message,
+            sender: data.sender,
+        });
     });
 
     socket.on("disconnect", () => {
         console.log(`user ${socket.id} has disconnected`);
     });
-    
+
     socket.on("end", () => {
         socket.disconnect();
     });

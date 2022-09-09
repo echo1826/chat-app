@@ -19,6 +19,8 @@ function App() {
         };
     }, []);
 
+    console.log(socket);
+
     return (
         <>
             <header className='app-header'>
