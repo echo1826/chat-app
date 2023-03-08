@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-function MessageInput({ socket, setMessages, messages }) {
+function MessageInput({ socket, setMessages, messages, username }) {
     const [input, setInput] = useState("");
     const [messageTimeout, setMessageTimeout] = useState(false);
+    console.log(username);
 
     function handleSubmit(event) {
         event.preventDefault();

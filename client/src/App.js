@@ -1,22 +1,23 @@
 // import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 import React, { useState, useEffect } from "react";
-import {Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { io } from "socket.io-client";
-import Messages from "./components/Messages";
-import MessageInput from "./components/MessageInput";
-import Login from "./components/Login";
+import Chat from "./pages/Chat";
+// import Messages from "./components/Messages";
+// import MessageInput from "./components/MessageInput";
+import Login from "./pages/Login";
 
 function App() {
     const [socket, setSocket] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(localStorage.getItem("user") || "");
 
     useEffect(() => {
-        console.log("useEffect firing");
+        // console.log("useEffect firing");
         const newSocket = io();
         setSocket(newSocket);
-		// clean up function to close the connection to server
+        // clean up function to close the connection to server
         return () => {
             newSocket.close();
         };
@@ -26,20 +27,38 @@ function App() {
 
     return (
         <>
-            <header className='app-header'>
+            <header className="app-header">
                 <h1>React Chat</h1>
             </header>
 
-            <Login username={username} setUsername={setUsername}/>
-
-            {socket ? (
-                <div className="chat-container">
-                    <Messages socket={socket} messages={messages} setMessages={setMessages}/>
-                    <MessageInput socket={socket} setMessages={setMessages} messages={messages}/>
-                </div>
-            ) : (
-                <div>Not Connected</div>
-            )}
+            <Router>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <Login
+                                username={username}
+                                setUsername={setUsername}
+                            />
+                        }
+                    />
+                    <Route
+                        path="/chat"
+                        element={
+                            socket ? (
+                                <Chat
+                                    socket={socket}
+                                    messages={messages}
+                                    setMessages={setMessages}
+                                    username={username}
+                                />
+                            ) : (
+                                <div>Not Connected</div>
+                            )
+                        }
+                    />
+                </Routes>
+            </Router>
         </>
     );
 }
