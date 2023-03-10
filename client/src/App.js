@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 function App() {
     const [socket, setSocket] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [username, setUsername] = useState(localStorage.getItem("user") || "");
+    const [username, setUsername] = useState(JSON.parse(localStorage.getItem("user") || ""));
 
     useEffect(() => {
         // console.log("useEffect firing");

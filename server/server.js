@@ -37,6 +37,7 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("receive_message", {
             message: data.message,
             sender: data.sender,
+            username: JSON.stringify(data.username)
         });
     });
 

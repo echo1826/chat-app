@@ -22,7 +22,7 @@ function Messages({ socket, messages, setMessages }) {
                     }`}
                     key={index}
                 >
-                    {message.message}
+                    {message.username}: {message.message}
                 </div>
             ))}
         </>
