@@ -21,7 +21,7 @@ function MessageInput({ socket, setMessages, messages, username }) {
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
                 />
-                {messageTimeout ? <></> : <button type="submit">Send</button>}
+                {messageTimeout ? <div>Please wait 2 seconds before sending another message</div> : <button type="submit">Send</button>}
             </form>
         </>
     );
