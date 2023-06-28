@@ -3,6 +3,8 @@ const path = require("path");
 const http = require("http");
 const cors = require("cors");
 const socketIo = require("socket.io");
+const db = require("./config/connection");
+const { User } = require("./models");
 const app = express();
 
 const PORT = process.env.PORT || 3001;
@@ -18,6 +20,11 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/build")));
 }
+
+app.get("/api/chat", async (req, res) => {
+    const users = await User.find({});
+    res.json(users);
+});
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
@@ -37,7 +44,7 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("receive_message", {
             message: data.message,
             sender: data.sender,
-            username: data.username
+            username: data.username,
         });
     });
 
@@ -50,6 +57,8 @@ io.on("connection", (socket) => {
     });
 });
 
-httpServer.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+db.once("open", () => {
+    httpServer.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 });
