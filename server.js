@@ -4,7 +4,7 @@ const http = require("http");
 const cors = require("cors");
 const socketIo = require("socket.io");
 const db = require("./config/connection");
-const { User } = require("./models");
+const route = require("./routes");
 const app = express();
 
 const PORT = process.env.PORT || 3001;
@@ -16,15 +16,11 @@ app.use(
 );
 app.use(cors());
 app.use(express.json());
+app.use(route);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/build")));
 }
-
-app.get("/api/chat", async (req, res) => {
-    const users = await User.find({});
-    res.json(users);
-});
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
