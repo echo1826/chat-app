@@ -1,18 +1,24 @@
-async function getMessages() {
+async function getMessages(token) {
     try {
-        const response = await fetch("/api/message");
-        const data = await response.json();
-        return data;
+        return await fetch("/api/message", {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`,
+            },
+        });
     } catch (err) {
         return "Error in getting messages";
     }
 }
 
-async function sendMessage(data) {
+async function sendMessage(data, token) {
     try {
         await fetch("/api/message", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`,
+            },
             body: JSON.stringify(data),
         });
     } catch (err) {
@@ -22,7 +28,7 @@ async function sendMessage(data) {
 
 async function signup(data) {
     try {
-        const response = await fetch("/api/signup", {
+        const response = await fetch("/api/user/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -36,7 +42,7 @@ async function signup(data) {
 
 async function login(data) {
     try {
-        const response = await fetch("/api/login", {
+        const response = await fetch("/api/user/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

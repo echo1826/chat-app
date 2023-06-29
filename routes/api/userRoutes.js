@@ -26,6 +26,7 @@ router.post("/login", async (req, res) => {
             res.status(401).json("Incorrect username or password");
         }
         const token = signToken(user);
+        console.log(token);
         res.status(200).json(token);
     } catch (err) {
         res.status(500).json(err);

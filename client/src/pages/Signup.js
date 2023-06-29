@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { login } from "../utils/api";
+import { signup } from "../utils/api";
 import Auth from "../utils/auth";
 
-function Login() {
+function SignUp() {
     const [inputState, setInputState] = useState({
         username: "",
         password: "",
     });
     async function handleFormSubmit(e) {
         e.preventDefault();
-        const data = await login(inputState);
+        const data = await signup(inputState);
         Auth.login(data);
     }
 
@@ -33,11 +32,10 @@ function Login() {
                     value={inputState.password}
                     type="password"
                 />
-                <button type="submit">Login</button>
+                <button type="submit">Signup</button>
             </form>
-            <Link to={"/signup"}>Signup instead</Link>
         </>
     );
 }
 
-export default Login;
+export default SignUp;

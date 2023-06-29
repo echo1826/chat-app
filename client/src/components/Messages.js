@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./messages.css";
+import Auth from "../utils/auth";
 
 function Messages({ socket, messages, setMessages }) {
     // const [messageList, setMessageList] = useState([]);
@@ -13,16 +14,18 @@ function Messages({ socket, messages, setMessages }) {
         });
     });
 
+    const user = Auth.getProfile();
+
     return (
         <>
             {messages.map((message, index) => (
                 <div
                     className={`${
-                        message.sender === socket.id ? "sent" : "message"
+                        message.user._id === user._id ? "sent" : "message"
                     }`}
                     key={index}
                 >
-                    {message.username}: {message.message}
+                    {message.user.username}: {message.text}
                 </div>
             ))}
         </>
