@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
         console.log(io.engine.clientsCount);
         socket.broadcast.emit("receive_message", {
             message: data.message,
-            sender: data.sender,
+            user: data.user,
             username: data.username,
         });
     });

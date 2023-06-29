@@ -1,17 +1,35 @@
 import React, { useState } from "react";
+import Auth from "../utils/auth";
+import { sendMessage } from "../utils/api";
 
-function MessageInput({ socket, setMessages, messages, username }) {
+function MessageInput({ socket, setMessages, messages }) {
     const [input, setInput] = useState("");
     const [messageTimeout, setMessageTimeout] = useState(false);
-    console.log(username);
+    const profile = Auth.getProfile();
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
-        setMessages([...messages, { message: input, sender: socket.id, username: username }]);
-        socket.emit("send_message", { message: input, sender: socket.id, username: username });
-        setInput("");
-        setMessageTimeout(true);
-        setTimeout(() => setMessageTimeout(false), 2000);
+        try {
+            setMessages([
+                ...messages,
+                {
+                    message: input,
+                    user: profile._id,
+                    username: profile.username,
+                },
+            ]);
+            socket.emit("send_message", {
+                message: input,
+                user: profile._id,
+                username: profile.username,
+            });
+            await sendMessage({ message: input });
+            setInput("");
+            setMessageTimeout(true);
+            setTimeout(() => setMessageTimeout(false), 2000);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -21,7 +39,13 @@ function MessageInput({ socket, setMessages, messages, username }) {
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
                 />
-                {messageTimeout ? <div>Please wait 2 seconds before sending another message</div> : <button type="submit">Send</button>}
+                {messageTimeout ? (
+                    <div>
+                        Please wait 2 seconds before sending another message
+                    </div>
+                ) : (
+                    <button type="submit">Send</button>
+                )}
             </form>
         </>
     );
