@@ -7,13 +7,10 @@ import Chat from "./pages/Chat";
 // import Messages from "./components/Messages";
 // import MessageInput from "./components/MessageInput";
 import Login from "./pages/Login";
+import Auth from './utils/auth';
 
 function App() {
     const [socket, setSocket] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [username, setUsername] = useState(
-        JSON.parse(localStorage.getItem("user")) || ""
-    );
 
     useEffect(() => {
         // console.log("useEffect firing");
@@ -38,24 +35,18 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <Login
-                                username={username}
-                                setUsername={setUsername}
-                            />
+                            <Login/>
                         }
                     />
                     <Route
                         path="/chat"
                         element={
-                            socket ? (
+                            socket && Auth.isLoggedIn() ? (
                                 <Chat
                                     socket={socket}
-                                    messages={messages}
-                                    setMessages={setMessages}
-                                    username={username}
                                 />
                             ) : (
-                                <div>Not Connected</div>
+                                <Login />
                             )
                         }
                     />

@@ -48,4 +48,4 @@ async function login(data) {
     }
 }
 
-export { getMessages, sendMessage, signup };
+export { getMessages, sendMessage, signup, login };

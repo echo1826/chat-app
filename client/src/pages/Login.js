@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-
-function Login(props) {
+function Login() {
+    const [inputState, setInputState] = useState({
+        username: "",
+        password: "",
+    });
     function handleFormSubmit(e) {
         e.preventDefault();
-        localStorage.setItem("user", JSON.stringify(props.username));
-        document.location.replace("/chat");
     }
 
     function handleChange(e) {
-        const { value } = e.target;
-        props.setUsername(value);
+        const { value, name } = e.target;
+        setInputState({ ...inputState, name: value });
     }
 
     return (
@@ -19,7 +20,13 @@ function Login(props) {
                 <input
                     name="username"
                     onChange={handleChange}
-                    value={props.username}
+                    value={inputState.username}
+                />
+                <input
+                    name="password"
+                    onChange={handleChange}
+                    value={inputState.password}
+                    type="password"
                 />
                 <button type="submit">Login</button>
             </form>
