@@ -7,6 +7,8 @@ function MessageInput({ socket, setMessages, messages }) {
     const [messageTimeout, setMessageTimeout] = useState(false);
     const profile = Auth.getProfile();
 
+    console.log(profile);
+
     async function handleSubmit(event) {
         event.preventDefault();
         try {
@@ -14,16 +16,17 @@ function MessageInput({ socket, setMessages, messages }) {
                 ...messages,
                 {
                     message: input,
-                    user: profile._id,
-                    username: profile.username,
+                    user: profile.data._id,
+                    username: profile.data.username,
                 },
             ]);
+            console.log(input, profile.data._id, profile.data.username)
             socket.emit("send_message", {
                 message: input,
-                user: profile._id,
-                username: profile.username,
+                user: profile.data._id,
+                username: profile.data.username,
             });
-            await sendMessage({ message: input });
+            await sendMessage({ message: input, user: profile.data._id, username: profile.data.username }, Auth.getToken());
             setInput("");
             setMessageTimeout(true);
             setTimeout(() => setMessageTimeout(false), 2000);

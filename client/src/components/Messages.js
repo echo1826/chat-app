@@ -15,13 +15,14 @@ function Messages({ socket, messages, setMessages }) {
     });
 
     const user = Auth.getProfile();
+    console.log(user.data._id);
 
     return (
         <>
             {messages.map((message, index) => (
                 <div
                     className={`${
-                        message.user._id === user._id ? "sent" : "message"
+                        message.user._id === user.data._id ? "sent" : "message"
                     }`}
                     key={index}
                 >
