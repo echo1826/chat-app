@@ -15,7 +15,7 @@ router.get("/", authMiddleware, async (req, res) => {
     try {
         const messages = await Message.find({})
             .select("-__v")
-            .populate({ path: "user", select: "-password -__v -_id" });
+            .populate({ path: "user", select: "-password -__v" });
         res.status(200).json(messages);
     } catch (err) {
         console.log(err);

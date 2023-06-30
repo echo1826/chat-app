@@ -19,14 +19,14 @@ router.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username });
         if (!user) {
-            res.status(401).json("Incorrect username or password");
+            throw new Error("incorrect credentials")
         }
         const authenticated = await user.isCorrectPassword(req.body.password);
         if (!authenticated) {
-            res.status(401).json("Incorrect username or password");
+            throw new Error("incorrect credentials")
         }
         const token = signToken(user);
-        console.log(token);
+        // console.log(token);
         res.status(200).json(token);
     } catch (err) {
         res.status(500).json(err);

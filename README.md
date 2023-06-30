@@ -10,3 +10,5 @@ All messaging data is stored on the front end with react state. Right now any us
 - React
 - Express.js
 - Socket.io
+- MongoDB
+- jsonwebtoken
